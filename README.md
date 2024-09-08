@@ -120,13 +120,13 @@ print(estimated_plaintext)
 # 🛡️ Customization Options
 The Tomato Encoder/Decoder Tool offers several customizable parameters:
 
---cipher_len: Length of the cipher (default is 15).
---shared_private_key: Shared private key in hex format. If not provided, a random key will be generated.
---prompt: Prompt for the language model (default is "Good evening.").
---max_len: Maximum length of the covertext (default is 100).
---temperature: Sampling temperature for the language model (default is 1.0).
---k: The k parameter for the language model (default is 50).
---model_name: Name of the language model to be used (default is "unsloth/mistral-7b-instruct-v0.3-bnb-4bit").
+* cipher_len: Length of the cipher (default is 15).
+* shared_private_key: Shared private key in hex format. If not provided, a random key will be generated.
+* prompt: Prompt for the language model (default is "Good evening.").
+* max_len: Maximum length of the covertext (default is 100).
+* temperature: Sampling temperature for the language model (default is 1.0).
+* k: The k parameter for the language model (default is 50).
+* model_name: Name of the language model to be used (default is "unsloth/mistral-7b-instruct-v0.3-bnb-4bit").
 
 # 🙏 Contributions
 Tomoto is an open-source project and welcomes contributions from the community. If you would like to contribute to Tomoto, please follow these guidelines:
