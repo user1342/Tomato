@@ -48,10 +48,10 @@ During Decoding: The same principles are applied in reverse. The tool decodes th
 This process is powerful because it doesn't just hide the message within the text but does so in a way that the combined entropy of the stegotext and covertext is minimized. This makes the hidden message highly secure and the covertext virtually indistinguishable from any other text the LLM might generate.
 
 # ⚙️ Setup
-System Requirements
-Before you get started, make sure your system meets the following requirements:
-- Python 3.7 or higher.
-- GPU
+Tomato required Nvidia CUDA. Follow the steps below:
+- Ensure your Nvidia drivers are up to date: https://www.nvidia.com/en-us/geforce/drivers/
+- Install the appropriate dependancies from here: https://pytorch.org/get-started/locally/
+- Validate CUDA is installed correctly by running the following and being returned a prompt ```python -c "import torch; print(torch.rand(2,3).cuda())"```
   
 Install the dependencies using:
 
