@@ -1,4 +1,4 @@
-from tomato import ModelWrapper
+from tomato.utils import ModelWrapper
 import numpy as np
 from mec.utilities import log
 
