@@ -77,7 +77,7 @@ tomato-encode.exe "Your secret message here" --cipher_len 20 --shared_private_ke
 
 Example:
 ```
-tomato-encode.exe "help" --cipher_len 15 --shared_private_key 123abc... --max_len 100 --temperature 1.0 --k 50 --model_name "unsloth/mistral-7b-instruct-v0.3-bnb-4bit"
+tomato-encode.exe "Your plaintext here" --cipher_len 15 --shared_private_key 123abc... --max_len 100 --temperature 1.0 --k 50 --model_name "unsloth/mistral-7b-instruct-v0.3-bnb-4bit"
 ```
 
 This will output something like:
