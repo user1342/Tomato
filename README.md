@@ -41,7 +41,6 @@ During Encoding: MEC is used to couple the distribution of the hidden message (c
 
 During Decoding: The same principles are applied in reverse. The tool decodes the stegotext by leveraging the same MEC principles to disentangle the hidden message from the natural-sounding covertext, ensuring that the message can be accurately retrieved.
 
-This process is powerful because it doesn't just hide the message within the text but does so in a way that the combined entropy of the stegotext and covertext is minimized. This makes the hidden message highly secure and the covertext virtually indistinguishable from any other text the LLM might generate.
 
 # ⚙️ Setup
 Tomato required Nvidia CUDA. Follow the steps below:
