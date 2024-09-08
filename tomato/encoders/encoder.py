@@ -27,7 +27,7 @@ class Encoder():
 
         # The covertext distribution is a distribution over innocuous content.
         # Use a better language model for real applications.
-        covertext_dist = ModelMarginal(
+        self._covertext_dist = ModelMarginal(
             prompt=self._prompt,
             max_len=self._max_len,
             temperature=self._temperature,
@@ -37,7 +37,7 @@ class Encoder():
 
         ciphertext_dist = RandomString(num_chars=2**8, string_len=self._cipher_len)
         # FIMEC defines the communication protocol between the sender and receiver.
-        self._imec = FIMEC(ciphertext_dist, covertext_dist)
+        self._imec = FIMEC(ciphertext_dist, self._covertext_dist)
 
 
     def encode(self, plaintext = "Attack at dawn!"):
@@ -61,7 +61,7 @@ class Encoder():
         # The sender communicates the stegotext to the receiver over a public channel.
         stegotext, _ = self._imec.sample_y_given_x(ciphertext)
 
-        formatted_stegotext = re.sub(" {2,}", "\n", covertext_dist.decode(stegotext).replace("\n", " ")).strip()
+        formatted_stegotext = re.sub(" {2,}", "\n", self._covertext_dist.decode(stegotext).replace("\n", " ")).strip()
 
         return formatted_stegotext, stegotext
 
