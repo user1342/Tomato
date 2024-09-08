@@ -144,4 +144,4 @@ Tomoto follows the Contributor Covenant Code of Conduct. Please make sure to rev
 If you encounter a bug or have a suggestion for a new feature, please open an issue in the GitHub repository. Please provide as much detail as possible, including steps to reproduce the issue or a clear description of the proposed feature. Your feedback is valuable and will help improve Monocle for everyone.
 
 # 📜 License
-[GNU General Public License v3.0](https://choosealicense.com/licenses/gpl-3.0/)
+MIT
