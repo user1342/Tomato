@@ -108,13 +108,13 @@ from tomato import Encoder
 
 encoder = Encoder()
 
-plaintext = "help"
-stego_text = encoder.encode(plaintext)
-print(f"Stegotext: {stego_text}")
+plaintext = "I am a hidden code"
+formatted_stegotext, stegotext = encoder.encode(plaintext)
+estimated_plaintext, estimated_bytetext = encoder.decode(stegotext)
 
-decoded_plaintext, decoded_bytetext = encoder.decode(stego_text)
-print(f"Decoded Plaintext: {decoded_plaintext}")
-print(f"Decoded Bytetext: {decoded_bytetext}")
+print(formatted_stegotext)
+print("------")
+print(estimated_plaintext)
 ```
 
 # 🛡️ Customization Options
@@ -129,15 +129,20 @@ The Tomato Encoder/Decoder Tool offers several customizable parameters:
 --model_name: Name of the language model to be used (default is "unsloth/mistral-7b-instruct-v0.3-bnb-4bit").
 
 # 🙏 Contributions
-We welcome contributions from the community! If you would like to contribute:
+Tomoto is an open-source project and welcomes contributions from the community. If you would like to contribute to Tomoto, please follow these guidelines:
 
-Fork the repository.
-Create a new branch (feature/new-feature).
-Make your changes.
-Submit a pull request.
+- Fork the repository to your own GitHub account.
+- Create a new branch with a descriptive name for your contribution.
+- Make your changes and test them thoroughly.
+- Submit a pull request to the main repository, including a detailed description of your changes and any relevant documentation.
+- Wait for feedback from the maintainers and address any comments or suggestions (if any).
+- Once your changes have been reviewed and approved, they will be merged into the main repository.
+
+# ⚖️ Code of Conduct
+Tomoto follows the Contributor Covenant Code of Conduct. Please make sure to review and adhere to this code of conduct when contributing to Monocle.
 
 # 🐛 Bug Reports and Feature Requests
-If you encounter any bugs or have ideas for new features, please open an issue on the GitHub repository. Provide as much detail as possible to help us address the issue quickly.
+If you encounter a bug or have a suggestion for a new feature, please open an issue in the GitHub repository. Please provide as much detail as possible, including steps to reproduce the issue or a clear description of the proposed feature. Your feedback is valuable and will help improve Monocle for everyone.
 
 # 📜 License
-This project is licensed under the MIT License. See the LICENSE file for more details.
+[GNU General Public License v3.0](https://choosealicense.com/licenses/gpl-3.0/)
