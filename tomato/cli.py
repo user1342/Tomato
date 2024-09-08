@@ -1,5 +1,5 @@
 import argparse
-from tomato.encoder import Encoder  # Import Encoder class from the right module
+from tomato import Encoder  # Import Encoder class from the right module
 
 def encode_command(args):
     encoder = Encoder(

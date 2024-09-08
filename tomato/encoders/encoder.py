@@ -5,8 +5,8 @@ that the stegotext and covertext are statistically indistinguishable.
 
 import re
 import secrets
-from tomato.utils.random_string import RandomString
-from tomato.utils.model_marginal import ModelMarginal
+from tomato import RandomString
+from tomato import ModelMarginal
 from mec import FIMEC
 import numpy as np
 
