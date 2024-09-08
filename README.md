@@ -23,9 +23,6 @@ encoder = Encoder()
 plaintext = "hello"
 formatted_stegotext, stegotext = encoder.encode(plaintext)
 estimated_plaintext, estimated_bytetext = encoder.decode(stegotext)
-
-formatted_stegotext, stegotext = encoder.encode(plaintext)
-estimated_plaintext, estimated_bytetext = encoder.decode(stegotext)
 ```
 
 Output:
