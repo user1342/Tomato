@@ -72,12 +72,12 @@ You can use the Tomato Encoder/Decoder Tool directly from the command line. Here
 To encode a plaintext message into stegotext:
 
 ```
-python -m tomato encode "Your secret message here" --cipher_len 20 --shared_private_key 123abc... --prompt "Good evening."
+tomato-encode.exe "Your secret message here" --cipher_len 20 --shared_private_key 123abc... --prompt "Good evening."
 ```
 
 Example:
 ```
-python -m tomato encode "help" --cipher_len 15 --shared_private_key 123abc... --max_len 100 --temperature 1.0 --k 50 --model_name "unsloth/mistral-7b-instruct-v0.3-bnb-4bit"
+tomato-encode.exe "help" --cipher_len 15 --shared_private_key 123abc... --max_len 100 --temperature 1.0 --k 50 --model_name "unsloth/mistral-7b-instruct-v0.3-bnb-4bit"
 ```
 
 This will output something like:
@@ -89,12 +89,12 @@ Stegotext: [Your encoded message here]
 To decode a stegotext back into its original plaintext:
 
 ```
-python -m tomato decode "Your stegotext here" --cipher_len 20 --shared_private_key 123abc... --prompt "Good evening."
+tomato-decode.exe "Your stegotext here" --cipher_len 20 --shared_private_key 123abc... --prompt "Good evening."
 ```
 
 Example:
 ```
-python -m tomato decode "Your stegotext here" --cipher_len 15 --shared_private_key 123abc... --max_len 100 --temperature 1.0 --k 50 --model_name "unsloth/mistral-7b-instruct-v0.3-bnb-4bit"
+tomato-decode.exe "Your stegotext here" --cipher_len 15 --shared_private_key 123abc... --max_len 100 --temperature 1.0 --k 50 --model_name "unsloth/mistral-7b-instruct-v0.3-bnb-4bit"
 ```
 
 This will output something like:
