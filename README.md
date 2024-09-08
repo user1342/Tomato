@@ -4,7 +4,7 @@
 </p>
 <p align="center"> 🤖 LLM steganography with minimum-entropy coupling 🍅 </p>
 
-**Tomato is a proof of concept steganography tool that utilizes minimum-entropy coupling code provided by [ssokota](https://github.com/ssokota/mec/tree/master)! ⭐**
+**Tomato is a proof of concept steganography tool that utilises minimum-entropy coupling code provided by [ssokota](https://github.com/ssokota/mec/tree/master)! ⭐**
 
 # 🧠 How It Works: Minimum Entropy Coupling and Language Models
 To understand how the Tomato Encoder/Decoder Tool works, we need to dive a bit deeper into two key concepts: Minimum Entropy Coupling (MEC) and how it relates to Large Language Models (LLMs).
