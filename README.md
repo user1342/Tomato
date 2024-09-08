@@ -32,7 +32,7 @@ Output:
 ```bash
 Stegotext: After hours, I like to walk. Sometimes I will travel by train to a station I’ve never been, and walk from there in no particular direction. As I walk, I find the world reveals itself, in small, inexplicable ways. Tonight, a rabbit darted across the track ahead of the train with such urgency I thought, for a moment, it was a fox, or something more menacing. And when I pulled my phone out to
 ------
-Plaintext:  helloAAAAAAAAAA # The A's are padding up to the encryption key length
+Decoded Plaintext:  helloAAAAAAAAAA # The A's are padding up to the encryption key length
 ```
 
 # ⚙️ Setup
