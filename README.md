@@ -101,7 +101,7 @@ Estimated Bytetext: [Your decoded bytetext]
 ```
 
 ## Programatic Example
-For a quick demonstration, you can try encoding and decoding a simple message using the following code snippet:
+Checkout the [example playbook](https://github.com/user1342/Tomato/blob/main/example.ipynb)! For a quick demonstration, you can try encoding and decoding a simple message using the following code snippet:
 
 ```
 from tomato import Encoder
