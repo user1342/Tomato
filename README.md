@@ -2,7 +2,7 @@
     <img width=100% src="tomato.png">
   </a>
 </p>
-<p align="center"> 🤖 LLM steganography with minimum-entropy coupling 🍅 </p>
+<p align="center"> 🤖 Hide text within natural language text 🍅 </p>
 
 **Tomato is a proof of concept steganography tool that utilises minimum-entropy coupling code provided by [ssokota](https://github.com/ssokota/mec/tree/master)! ⭐**
 
@@ -12,6 +12,29 @@
 - **Decoding Process:** During decoding, the LLM assists by providing a context-aware interpretation of the stegotext. MEC is then used in reverse to decouple the hidden message from the covertext. The process leverages the same probability distributions used during embedding, ensuring that the message is accurately extracted without compromising the integrity of the covertext.
 
 This method ensures that the hidden message is seamlessly integrated into the text and can be securely and precisely retrieved later, with minimal risk of detection.
+
+# 📙 Example
+
+```python
+from tomato import Encoder
+
+encoder = Encoder()
+
+plaintext = "hello"
+formatted_stegotext, stegotext = encoder.encode(plaintext)
+estimated_plaintext, estimated_bytetext = encoder.decode(stegotext)
+
+formatted_stegotext, stegotext = encoder.encode(plaintext)
+estimated_plaintext, estimated_bytetext = encoder.decode(stegotext)
+```
+
+Output:
+```bash
+Stegotext: After hours, I like to walk. Sometimes I will travel by train to a station I’ve never been, and walk from there in no particular direction. As I walk, I find the world reveals itself, in small, inexplicable ways. Tonight, a rabbit darted across the track ahead of the train with such urgency I thought, for a moment, it was a fox, or something more menacing. And when I pulled my phone out to
+------
+Plaintext:  helloAAAAAAAAAA
+# The A's above are padding up to tghe encryption key length
+```
 
 # ⚙️ Setup
 Tomato required Nvidia CUDA. Follow the steps below:
@@ -41,12 +64,7 @@ To encode a plaintext message into stegotext:
 tomato-encode.exe "Your secret message here" --cipher_len 20 --shared_private_key 123abc... --prompt "Good evening."
 ```
 
-Example:
-```bash
-tomato-encode.exe "Your plaintext here" --cipher_len 15 --shared_private_key 123abc... --max_len 100 --temperature 1.0 --k 50 --model_name "unsloth/mistral-7b-instruct-v0.3-bnb-4bit"
-```
-
-This will output something like:
+Output:
 ```
 Stegotext: [Your encoded message here]
 ```
@@ -58,13 +76,7 @@ To decode a stegotext back into its original plaintext:
 tomato-decode.exe "Your stegotext here" --cipher_len 20 --shared_private_key 123abc... --prompt "Good evening."
 ```
 
-Example:
-```bash
-tomato-decode.exe "Your stegotext here" --cipher_len 15 --shared_private_key 123abc... --max_len 100 --temperature 1.0 --k 50 --model_name "unsloth/mistral-7b-instruct-v0.3-bnb-4bit"
-```
-
-This will output something like:
-
+Output:
 ```
 Estimated Plaintext: [Your decoded plaintext]
 Estimated Bytetext: [Your decoded bytetext]
