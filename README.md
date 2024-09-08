@@ -51,10 +51,10 @@ Tomato required Nvidia CUDA. Follow the steps below:
   
 Install the dependencies using:
 
-```
+```bash
 pip install git+https://github.com/user1342/mec
 ```
-```
+```bash
 git clone https://github.com/user1342/Tomato.git
 cd tomato
 pip install -r requirements.txt
@@ -67,12 +67,12 @@ You can use the Tomato Encoder/Decoder Tool directly from the command line. Here
 ## Encode a Message
 To encode a plaintext message into stegotext:
 
-```
+```bash
 tomato-encode.exe "Your secret message here" --cipher_len 20 --shared_private_key 123abc... --prompt "Good evening."
 ```
 
 Example:
-```
+```bash
 tomato-encode.exe "Your plaintext here" --cipher_len 15 --shared_private_key 123abc... --max_len 100 --temperature 1.0 --k 50 --model_name "unsloth/mistral-7b-instruct-v0.3-bnb-4bit"
 ```
 
@@ -84,12 +84,12 @@ Stegotext: [Your encoded message here]
 ## Decode a Message
 To decode a stegotext back into its original plaintext:
 
-```
+```bash
 tomato-decode.exe "Your stegotext here" --cipher_len 20 --shared_private_key 123abc... --prompt "Good evening."
 ```
 
 Example:
-```
+```bash
 tomato-decode.exe "Your stegotext here" --cipher_len 15 --shared_private_key 123abc... --max_len 100 --temperature 1.0 --k 50 --model_name "unsloth/mistral-7b-instruct-v0.3-bnb-4bit"
 ```
 
@@ -103,7 +103,7 @@ Estimated Bytetext: [Your decoded bytetext]
 ## Programatic Example
 Checkout the [example playbook](https://github.com/user1342/Tomato/blob/main/example.ipynb)! For a quick demonstration, you can try encoding and decoding a simple message using the following code snippet:
 
-```
+```python
 from tomato import Encoder
 
 encoder = Encoder()
