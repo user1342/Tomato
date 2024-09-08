@@ -6,7 +6,7 @@
 
 **Tomato is a proof of concept steganography tool that utilises minimum-entropy coupling code provided by [ssokota](https://github.com/ssokota/mec/tree/master)! ⭐**
 
-# 🧠 How It Works: Minimum Entropy Coupling and Language Models
+# 🧠 How It Works
 To understand how the Tomato Encoder/Decoder Tool works, we need to dive a bit deeper into two key concepts: Minimum Entropy Coupling (MEC) and how it relates to Large Language Models (LLMs).
 
 ## Minimum Entropy Coupling (MEC)
@@ -128,7 +128,7 @@ The Tomato Encoder/Decoder Tool offers several customizable parameters:
 * model_name: Name of the language model to be used (default is "unsloth/mistral-7b-instruct-v0.3-bnb-4bit").
 
 # 🙏 Contributions
-Tomoto is an open-source project and welcomes contributions from the community. If you would like to contribute to Tomoto, please follow these guidelines:
+Tomato is an open-source project and welcomes contributions from the community. If you would like to contribute to Tomoto, please follow these guidelines:
 
 - Fork the repository to your own GitHub account.
 - Create a new branch with a descriptive name for your contribution.
@@ -138,7 +138,7 @@ Tomoto is an open-source project and welcomes contributions from the community. 
 - Once your changes have been reviewed and approved, they will be merged into the main repository.
 
 # ⚖️ Code of Conduct
-Tomoto follows the Contributor Covenant Code of Conduct. Please make sure to review and adhere to this code of conduct when contributing to Monocle.
+Tomato follows the Contributor Covenant Code of Conduct. Please make sure to review and adhere to this code of conduct when contributing to Tomato.
 
 # 🐛 Bug Reports and Feature Requests
 If you encounter a bug or have a suggestion for a new feature, please open an issue in the GitHub repository. Please provide as much detail as possible, including steps to reproduce the issue or a clear description of the proposed feature. Your feedback is valuable and will help improve Monocle for everyone.
