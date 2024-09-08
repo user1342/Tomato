@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="Tomato",  # Name of the tool/package
-    version="0.1.8",  # Initial version
+    version="0.1.9",  # Initial version
     url="https://github.com/user1342/Tomato",  # Replace with the project's GitHub URL
     packages=find_packages(),  # Automatically find package directories
     classifiers=[
