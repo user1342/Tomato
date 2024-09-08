@@ -61,7 +61,9 @@ class Encoder():
         # The sender communicates the stegotext to the receiver over a public channel.
         stegotext, _ = self._imec.sample_y_given_x(ciphertext)
 
-        return stegotext
+        formatted_stegotext = re.sub(" {2,}", "\n", covertext_dist.decode(stegotext).replace("\n", " ")).strip()
+
+        return formatted_stegotext, stegotext
 
     def decode(self, stegotext):
         # The estimated ciphertext is the receiver's "best guess" of the ciphertext,
