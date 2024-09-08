@@ -4,7 +4,7 @@
 </p>
 <p align="center"> 🤖 Testing LLM security with simulated attacks ⚔️ </p>
 
-Tomato is a proof of concept stegonogrpahy tool thta utilises minimum-entropy coupling code provided by [ssokota](https://github.com/ssokota/mec/tree/master)!
+**Tomato is a proof of concept stegonogrpahy tool thta utilises minimum-entropy coupling code provided by [ssokota](https://github.com/ssokota/mec/tree/master)! ⭐**
 
 - 🔒 Secure Encoding: Encode plaintext into stegotext using customizable encryption parameters.
 - 🕵️ Reliable Decoding: Decode stegotext back into its original plaintext and byte format.
