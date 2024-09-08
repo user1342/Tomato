@@ -4,7 +4,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 from transformers import AutoTokenizer, AutoModelForCausalLM
-from tomato import EasyLLM
+from tomato.utils import EasyLLM
 from mec.utilities import log
 
 os.environ["HF_ENDPOINT"] = "https://huggingface.co"
