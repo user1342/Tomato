@@ -1,5 +1,5 @@
 import re
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
@@ -7,7 +7,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
 class EasyLLM:
     """
-    A simple class for interacting with a pretrained language model for generating dialogue responses.
+    A simple class for interacting with a pretrained language model to generate dialogue responses.
     """
 
     def __init__(
@@ -16,41 +16,40 @@ class EasyLLM:
         model_name: str = "unsloth/mistral-7b-instruct-v0.3-bnb-4bit",
     ) -> None:
         """
-        Initializes the EasyLLM class with a given model and token limit.
+        Initializes the EasyLLM class with a specified model and token generation limit.
 
         Args:
-            max_new_tokens: Maximum number of new tokens to generate in a response.
-            model_name: Name of the pretrained language model.
+            max_new_tokens (int): Maximum number of new tokens to generate in a response.
+            model_name (str): Name of the pretrained language model to use.
         """
         self.max_new_tokens = max_new_tokens
         self.model_name = model_name
-        self.dialogue = []
+        self.dialogue: List[dict] = []
 
-        self._device = "cuda" if torch.cuda.is_available() else "cpu"
+        self._device: str = "cuda" if torch.cuda.is_available() else "cpu"
         self.model, self.tokenizer = self._load_model(self.model_name)
 
-    def set_to_eval(self):
+    def set_to_eval(self) -> None:
+        """
+        Sets the model to evaluation mode, which is necessary for generating responses.
+        """
         self.model.eval()
 
-    def _load_model(
-        self, model_name: str
-    ) -> Tuple[AutoModelForCausalLM, AutoTokenizer]:
+    def _load_model(self, model_name: str) -> Tuple[AutoModelForCausalLM, AutoTokenizer]:
         """
-        Load the pretrained language model and tokenizer.
+        Loads the pretrained language model and tokenizer.
 
         Args:
-            model_name: Name of the pretrained model.
-            device: Device to load the model onto (e.g., "cuda" or "cpu").
+            model_name (str): Name of the pretrained model.
 
         Returns:
             Tuple[AutoModelForCausalLM, AutoTokenizer]: Loaded language model and tokenizer.
         """
-
         model = AutoModelForCausalLM.from_pretrained(
-        model_name,
-        temperature=1.0,
-        do_sample=True,
-        torch_dtype=torch.bfloat16,
+            model_name,
+            temperature=1.0,
+            do_sample=True,
+            torch_dtype=torch.bfloat16,
         )
         tokenizer = AutoTokenizer.from_pretrained(model_name, padding_side="left")
         return model, tokenizer
@@ -63,13 +62,13 @@ class EasyLLM:
         messages: List[dict],
     ) -> str:
         """
-        Generate a response from the language model given the input messages.
+        Generates a response from the language model based on the input messages.
 
         Args:
-            model: Loaded language model.
-            tokenizer: Loaded tokenizer.
-            device: Device to run the model on.
-            messages: List of input messages.
+            model (AutoModelForCausalLM): Loaded language model.
+            tokenizer (AutoTokenizer): Loaded tokenizer.
+            device (str): Device to run the model on, e.g., "cuda" or "cpu".
+            messages (List[dict]): List of input messages.
 
         Returns:
             str: Generated response from the language model.
@@ -87,10 +86,10 @@ class EasyLLM:
 
     def _remove_inst_tags(self, text: str) -> str:
         """
-        Remove instruction tags and other unwanted tokens from the generated text.
+        Removes instruction tags and other unwanted tokens from the generated text.
 
         Args:
-            text: Input text containing instruction tags.
+            text (str): Input text containing instruction tags.
 
         Returns:
             str: Cleaned text with instruction tags removed.
@@ -110,39 +109,35 @@ class EasyLLM:
             .strip()
         )
 
-    def reset_dialogue(self):
+    def reset_dialogue(self) -> None:
+        """
+        Resets the dialogue history, clearing all previous messages.
+        """
         self.dialogue = []
 
-    def ask_question(self, question: str, reset_dialogue=False) -> str:
+    def ask_question(self, question: str, reset_dialogue: bool = False) -> str:
         """
-        Generate a response for the given question using the loaded model.
+        Generates a response for the given question using the loaded model.
 
         Args:
-            question: The question or prompt provided by the user.
+            question (str): The question or prompt provided by the user.
+            reset_dialogue (bool): Whether to reset the dialogue history after generating a response.
 
         Returns:
             str: Generated response to the question.
         """
-
-        model = self.model
-        tokenizer = self.tokenizer
-
         self.dialogue.append({"role": "user", "content": question})
 
         result = self._generate_dialogue_response(
-            model, tokenizer, self._device, self.dialogue
+            self.model, self.tokenizer, self._device, self.dialogue
         )
 
+        # Extract the response after the last "[/INST]" tag and clean it
         data = result.split("[/INST]")
-        result = data[len(data) - 1]
+        result = data[-1]
         result = self._remove_inst_tags(result)
 
-        self.dialogue.append(
-            {
-                "role": "assistant",
-                "content": result,
-            }
-        )
+        self.dialogue.append({"role": "assistant", "content": result})
 
         if reset_dialogue:
             self.dialogue = []

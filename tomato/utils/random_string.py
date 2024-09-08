@@ -1,18 +1,24 @@
 import numpy as np
+from typing import List, Tuple
 
 class RandomString:
-    def __init__(self, num_chars: int, string_len: int):
-        """A FactoredMarginal that generates uniform random strings.
+    """
+    A class that generates uniform random strings following the FactoredMarginal protocol.
+    """
+
+    def __init__(self, num_chars: int, string_len: int) -> None:
+        """
+        Initializes the RandomString class.
 
         Args:
-            num_chars: Number of characters in the alphabet.
-            string_len: Length of the generated strings.
+            num_chars (int): Number of characters in the alphabet.
+            string_len (int): Length of the generated strings.
 
         Attributes:
-            num_chars: Number of characters in the alphabet.
-            string_len: Length of the generated strings.
-            component_distributions: Attribute from FactoredMarginal protocol.
-            ll: Log-likelihood of states.
+            num_chars (int): Number of characters in the alphabet.
+            string_len (int): Length of the generated strings.
+            component_distributions (List[np.ndarray]): List of uniform distributions over the alphabet.
+            ll (float): Log-likelihood of any generated string.
         """
         self.num_chars = num_chars
         self.string_len = string_len
@@ -21,11 +27,24 @@ class RandomString:
         ]
         self.ll = self.string_len * np.log(1 / self.num_chars)
 
-    def evaluate(self, x: list[int]) -> float:
-        """Implements method from `SupportsEvaluate` protocol."""
+    def evaluate(self, x: List[int]) -> float:
+        """
+        Evaluates the log-likelihood of a given sequence.
+
+        Args:
+            x (List[int]): The sequence to evaluate.
+
+        Returns:
+            float: The log-likelihood of the sequence.
+        """
         return self.ll
 
-    def sample(self) -> tuple[list[int], float]:
-        """Implements method from `SupportsSample` protocol."""
+    def sample(self) -> Tuple[List[int], float]:
+        """
+        Samples a random sequence according to the uniform distribution.
+
+        Returns:
+            Tuple[List[int], float]: The sampled sequence and its log-likelihood.
+        """
         seq = np.random.choice(range(self.num_chars), size=self.string_len).tolist()
         return seq, self.ll

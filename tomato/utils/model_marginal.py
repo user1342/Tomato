@@ -1,49 +1,56 @@
-from .model_wrapper import ModelWrapper
+from typing import List, Tuple, Dict, Optional, Union
 import numpy as np
 from mec.utilities import log
+from .model_wrapper import ModelWrapper
 
 class ModelMarginal:
+    """
+    A class representing an autoregressive marginal model that conditions on a prompt 
+    and generates sequences based on a given language model.
+    """
+
     def __init__(
         self,
         prompt: str,
         max_len: int,
         temperature: float,
         k: int,
-        model_name,
-    ):
-        """Autoregressive Marginal.
+        model_name: str,
+    ) -> None:
+        """
+        Initializes the ModelMarginal class.
 
         Args:
-            prompt: Prompt to condition on.
-            max_len: Maximum length of the generated text.
-            temperature: Temperature for sampling.
-            k: Number of top elements to consider.
-
-        Attributes:
-            max_len: Maximum length of the generated text.
-            temperature: Temperature for sampling.
-            k: Number of top elements to consider.
-            branching_factor: Attribute from `AutoRegressiveMarginal` protocol.
-            lm_model: model.
-            prompt: Prompt to condition on.
-            mapping: Mapping from prefixes to feasible tokens.
+            prompt (str): Prompt to condition the generation on.
+            max_len (int): Maximum length of the generated text.
+            temperature (float): Temperature parameter for sampling.
+            k (int): Number of top elements to consider during sampling.
+            model_name (str): Name of the language model to use.
 
         Raises:
-            ValueError: If prompt is empty.
+            ValueError: If the prompt is empty.
         """
-        if len(prompt) == 0:
-            raise ValueError
+        if not prompt:
+            raise ValueError("Prompt cannot be empty.")
+
         self.max_len = max_len
         self.temperature = temperature
         self.k = k
         self.branching_factor = k
         self.lm_model = ModelWrapper(model_name)
-        # Add newline to prompt to separate it from the query text.
-        self.prompt = prompt + "\n"
-        self.mapping: dict[tuple[int, ...], np.ndarray] = {}
+        self.prompt = f"{prompt}\n"  # Add newline to separate prompt from query text
+        self.mapping: Dict[Tuple[int, ...], np.ndarray] = {}
 
-    def conditional(self, prefix: list[int]) -> np.ndarray:
-        """Implement method from `AutoRegressiveMarginal` protocol."""
+    def conditional(self, prefix: List[int]) -> np.ndarray:
+        """
+        Generates a conditional probability distribution over the next token given a prefix.
+
+        Args:
+            prefix (List[int]): The sequence of token IDs that represents the prefix.
+
+        Returns:
+            np.ndarray: An array of probabilities for the next token, conditioned on the prefix.
+        """
         decoded_text = self.decode(prefix)
         conditional = self.lm_model.top_k_conditional(
             self.prompt + decoded_text, self.temperature, self.k
@@ -52,39 +59,60 @@ class ModelMarginal:
         self.mapping[tuple(prefix)] = np.arange(self.lm_model.vocab_size)[mask]
         return conditional[mask]
 
-    def evaluate(self, prefix: list[int]) -> float:
-        """Implement method from `SupportsEvaluate` protocol."""
-        ll = 0
-        for upper in range(len(prefix)):
-            conditional = self.conditional(prefix[:upper])
-            ll += log(conditional[prefix[upper]])
-        return ll
-
-    def is_terminal(self, prefix: list[int]) -> bool:
-        """Implement method from `AutoRegressiveMarginal` protocol."""
-        if len(prefix) > self.max_len:
-            raise ValueError
-        return len(prefix) == self.max_len
-
-    def encode(self, text: str) -> list[int] | None:
-        """Encode given into coupling representation.
+    def evaluate(self, prefix: List[int]) -> float:
+        """
+        Evaluates the log-likelihood of a given prefix under the model.
 
         Args:
-            text: Text to encode.
+            prefix (List[int]): The sequence of token IDs to evaluate.
 
         Returns:
-            Encoded prefix, None if encoding fails.
+            float: The log-likelihood of the prefix.
+        """
+        log_likelihood = 0.0
+        for upper in range(len(prefix)):
+            conditional = self.conditional(prefix[:upper])
+            log_likelihood += log(conditional[prefix[upper]])
+        return log_likelihood
+
+    def is_terminal(self, prefix: List[int]) -> bool:
+        """
+        Checks if a given prefix has reached the maximum length and thus is terminal.
+
+        Args:
+            prefix (List[int]): The sequence of token IDs to check.
+
+        Returns:
+            bool: True if the prefix is terminal, False otherwise.
+
+        Raises:
+            ValueError: If the prefix length exceeds the maximum allowed length.
+        """
+        if len(prefix) > self.max_len:
+            raise ValueError("Prefix length exceeds the maximum allowed length.")
+        return len(prefix) == self.max_len
+
+    def encode(self, text: str) -> Optional[List[int]]:
+        """
+        Encodes the given text into a sequence of token IDs.
+
+        Args:
+            text (str): The text to encode.
+
+        Returns:
+            Optional[List[int]]: The encoded sequence of token IDs, or None if encoding fails.
         """
         return self.lm_model.reduced_ids(self.prompt, text, self.k)
 
-    def decode(self, prefix: list[int]) -> str:
-        """Decode given prefix.
+    def decode(self, prefix: List[int]) -> str:
+        """
+        Decodes a sequence of token IDs into a human-readable text string.
 
         Args:
-            prefix: Prefix to decode.
+            prefix (List[int]): The sequence of token IDs to decode.
 
         Returns:
-            Decoded text.
+            str: The decoded text.
         """
         decoded_tokens = []
         for k, z_i in enumerate(prefix):
@@ -94,13 +122,21 @@ class ModelMarginal:
         decoded_text = self.lm_model.tokenizer.decode(decoded_tokens)
         return decoded_text
 
-    def sample(self) -> tuple[list[int], float]:
-        """Implement method from `SupportsSample` protocol."""
-        prefix: list[int] = []
-        likelihoods: list[float] = []
+    def sample(self) -> Tuple[List[int], float]:
+        """
+        Samples a sequence of token IDs from the model.
+
+        Returns:
+            Tuple[List[int], float]: The sampled sequence of token IDs and its log-likelihood.
+        """
+        prefix: List[int] = []
+        likelihoods: List[float] = []
+
         while len(prefix) < self.max_len:
             conditional = self.conditional(prefix)
-            z_k = np.random.choice(range(len(conditional)), p=conditional)
+            z_k = np.random.choice(len(conditional), p=conditional)
             prefix.append(z_k)
             likelihoods.append(conditional[z_k])
-        return prefix, np.log(likelihoods).sum()
+
+        total_log_likelihood = np.log(likelihoods).sum()
+        return prefix, total_log_likelihood
