@@ -2,7 +2,7 @@
     <img width=100% src="tomato.png">
   </a>
 </p>
-<p align="center"> 🤖 Hide text within natural language text 🍅 </p>
+<p align="center"> 🤖 Hide text within other natural language text 🍅 </p>
 
 **Tomato is a proof of concept steganography tool that utilises minimum-entropy coupling code provided by [ssokota](https://github.com/ssokota/mec/tree/master)! ⭐**
 
